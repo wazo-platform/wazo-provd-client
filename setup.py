@@ -21,6 +21,7 @@ setup(
     entry_points={
         'wazo_provd_client.commands': [
             'plugin_manager = wazo_provd_client.commands.plugin_manager:PluginManagerCommand',
+            'config_manager = wazo_provd_client.commands.config_manager:ConfigManagerCommand',
         ],
     }
 )
