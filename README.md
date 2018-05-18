@@ -9,10 +9,140 @@ A python client library to access xivo-provd
 from wazo_provd_client import Client
 
 c = Client('localhost', verify_certificate=False)
+```
 
+## Plugins Command
+
+```python
+# Update plugins list
 c.plugins.update()
+
+# Get list of installed plugins
 plugins_installed = c.plugins.list_installed(search='aastra')
+
+# Get list of installable plugins
 plugins_installable = c.plugins.list_installable()
+
+    # example of result
+    [{
+        'null': {
+            'capabilities': {'*, *, *': {'sip.lines': 0}},
+            'description': 'Plugin that offers no configuration service and rejects TFTP/HTTP requests.',
+            'dsize': 943,
+            'sha1sum': '873bf36b8024c74a85ee60f983254542fe16c32d',
+            'version': '1.0'
+       },
+        'zero': {
+            'capabilities': {'*, *, *': {'sip.lines': 0}},
+            'description': 'Plugin that offers no configuration service and serves TFTP/HTTP requests in its var/tftpboot directory.',
+            'dsize': 1043,
+            'sha1sum': 'b41a34b3b0b70512057a75465e0e76338b62a5b2',
+            'version': '1.0'
+       }
+    }]
+
+
+# Install a plugin
+c.plugins.install('zero')
+
+# Uninstall a plugin
+c.plugins.uninstall('zero')
+```
+
+## Configs Command
+
+```python
+# Get list of template config line
+config_registrars = c.configs.list_registrar()
+
+    # example of result
+    [{
+        'X_type': 'registrar',
+        'displayname': 'local',
+        'id': 'default',
+        'parent_ids': [],
+        'proxy_backup': None,
+        'proxy_main': '10.33.0.10',
+        'raw_config': {'X_key': 'xivo'},
+        'registrar_backup': None,
+        'registrar_main': '10.33.0.10',
+        'uuid': 'default'
+    },
+    {
+        'X_type': 'registrar',
+        'displayname': 'test22',
+        'id': 'ce474e86abb04bd781e59a4461c27da5',
+        'parent_ids': [],
+        'proxy_backup': None,
+        'proxy_main': '1.2.3.4',
+        'raw_config': {'X_key': 'xivo'},
+        'registrar_backup': None,
+        'registrar_main': '1.2.3.4'
+    }]
+
+
+# Get list of template config device
+config_devices = c.configs.list_device()
+
+    # example of result
+    [{
+    'X_type': 'device',
+    'uuid': '7169eb2d07564d9fb1cddac0e4fbe010',
+    'id': '7169eb2d07564d9fb1cddac0e4fbe010',
+    'label': 'test22',
+    'parent_ids': [],
+    'raw_config': {'X_key': 'xivo',
+              'admin_password': 'admin passwd',
+              'admin_username': 'admin username',
+              'config_encryption_enabled': True,
+              'locale': 'fr_FR',
+              'ntp_enabled': True,
+              'ntp_ip': None,
+              'protocol': 'SIP',
+              'sip_dtmf_mode': 'SIP-INFO',
+              'sip_subscribe_mwi': True,
+              'timezone': 'America/Porto_Acre',
+              'user_password': 'user passwd',
+              'user_username': 'user name'}
+    }]
+
+
+# Get config by id
+config = c.configs.get(id)
+
+    # example of result
+    {
+    'X_type': 'device',
+    'uuid': '7169eb2d07564d9fb1cddac0e4fbe010',
+    'id': '7169eb2d07564d9fb1cddac0e4fbe010',
+    'label': 'test22',
+    'parent_ids': [],
+    'raw_config': {'X_key': 'xivo',
+              'admin_password': 'admin passwd',
+              'admin_username': 'admin username',
+              'config_encryption_enabled': True,
+              'locale': 'fr_FR',
+              'ntp_enabled': True,
+              'ntp_ip': None,
+              'protocol': 'SIP',
+              'sip_dtmf_mode': 'SIP-INFO',
+              'sip_subscribe_mwi': True,
+              'timezone': 'America/Porto_Acre',
+              'user_password': 'user passwd',
+              'user_username': 'user name'}
+    }
+
+# Create a config
+config_id = c.configs.create(resource)
+
+# Update a config
+c.configs.update(id, resource)
+
+# Delete a config
+c.configs.delete(id)
+
+# Create config for autoprov
+config_id = c.configs.autocreate()
 ```
 
 ## Tests
