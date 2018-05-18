@@ -7,7 +7,7 @@ import json
 from wazo_provd_client.command import ProvdCommand
 
 
-class ConfigManagerCommand(ProvdCommand):
+class ConfigsCommand(ProvdCommand):
     resource = 'cfg_mgr'
     _headers = {
         'Content-Type': 'application/vnd.proformatique.provd+json'
