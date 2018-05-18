@@ -13,28 +13,28 @@ class PluginsCommand(ProvdCommand):
     }
 
     def update(self):
-        url = '{base}/install/update'.format(base=self.base)
+        url = '{base}/install/update'.format(base=self.base_url)
         r = self.session.post(url, data=json.dumps({}), headers=self._headers)
         self.raise_from_response(r)
 
     def install(self, id_):
-        url = '{base}/install/install'.format(base=self.base)
+        url = '{base}/install/install'.format(base=self.base_url)
         r = self.session.post(url, data=json.dumps({'id': id_}), headers=self._headers)
         self.raise_from_response(r)
 
     def uninstall(self, id_):
-        url = '{base}/install/uninstall'.format(base=self.base)
+        url = '{base}/install/uninstall'.format(base=self.base_url)
         r = self.session.post(url, data=json.dumps({'id': id_}), headers=self._headers)
         self.raise_from_response(r)
 
     def list_installed(self, **params):
-        url = '{base}/install/installed'.format(base=self.base)
+        url = '{base}/install/installed'.format(base=self.base_url)
         r = self.session.get(url, params=params)
         self.raise_from_response(r)
         return r.json()
 
     def list_installable(self, **params):
-        url = '{base}/install/installable'.format(base=self.base)
+        url = '{base}/install/installable'.format(base=self.base_url)
         r = self.session.get(url, params=params)
         self.raise_from_response(r)
         return r.json()
