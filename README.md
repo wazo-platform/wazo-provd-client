@@ -1,11 +1,9 @@
 wazo-provd-client
 =================
 
-A python library to connect to wazo-provd. HTTPS is used by default. Certificates are verified by
-default. To disable certificate verification, use the verify_certificate argument when instantiating
-the client.
+A python client library to access xivo-provd
 
-Usage:
+## Usage
 
 ```python
 from wazo_provd_client import Client
