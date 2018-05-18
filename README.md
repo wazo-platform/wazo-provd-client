@@ -10,9 +10,9 @@ from wazo_provd_client import Client
 
 c = Client('localhost', verify_certificate=False)
 
-c.plugin_manager.update()
-plugins_installed = c.plugin_manager.list_installed(search='aastra')
-plugins_installable = c.plugin_manager.list_installable()
+c.plugins.update()
+plugins_installed = c.plugins.list_installed(search='aastra')
+plugins_installable = c.plugins.list_installable()
 ```
 
 ## Tests

@@ -6,7 +6,7 @@ import json
 from wazo_provd_client.command import ProvdCommand
 
 
-class PluginManagerCommand(ProvdCommand):
+class PluginsCommand(ProvdCommand):
     resource = 'pg_mgr'
     _headers = {
         'Content-Type': 'application/vnd.proformatique.provd+json'
