@@ -2,16 +2,17 @@
 # Copyright 2018 The Wazo Authors  (see AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0+
 
-from hamcrest import assert_that
-from hamcrest import calling
-from hamcrest import raises
-from mock import Mock
-from mock import patch
 from unittest import TestCase
 
+from hamcrest import (
+    assert_that,
+    calling,
+    raises,
+)
+from mock import Mock, patch
+
 from ..command import ProvdCommand
-from ..exceptions import ProvdServiceUnavailable
-from ..exceptions import ProvdError
+from ..exceptions import ProvdServiceUnavailable, ProvdError
 
 SOME_ERROR_BODY = {
     'message': 'some message',

@@ -17,14 +17,14 @@ class PluginsCommand(ProvdCommand):
         r = self.session.post(url, data=json.dumps({}), headers=self._headers)
         self.raise_from_response(r)
 
-    def install(self, id):
+    def install(self, id_):
         url = '{base}/install/install'.format(base=self.base)
-        r = self.session.post(url, data=json.dumps({'id': id}), headers=self._headers)
+        r = self.session.post(url, data=json.dumps({'id': id_}), headers=self._headers)
         self.raise_from_response(r)
 
-    def uninstall(self, id):
+    def uninstall(self, id_):
         url = '{base}/install/uninstall'.format(base=self.base)
-        r = self.session.post(url, data=json.dumps({'id': id}), headers=self._headers)
+        r = self.session.post(url, data=json.dumps({'id': id_}), headers=self._headers)
         self.raise_from_response(r)
 
     def list_installed(self, **params):
