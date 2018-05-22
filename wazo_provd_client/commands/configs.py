@@ -46,7 +46,7 @@ class ConfigsCommand(ProvdCommand):
 
     def delete(self, id_):
         url = '{base}/configs/{id_}'.format(base=self.base_url, id_=id_)
-        r = self.session.put(url, headers=self._headers)
+        r = self.session.delete(url)
         self.raise_from_response(r)
 
     def autocreate(self):
