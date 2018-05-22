@@ -1,5 +1,4 @@
-wazo-provd-client
-=================
+# wazo-provd-client
 
 A python client library to access xivo-provd
 
@@ -11,7 +10,7 @@ from wazo_provd_client import Client
 c = Client('localhost', verify_certificate=False)
 ```
 
-## Plugins Command
+### Plugins Command
 
 ```python
 # Update plugins list
@@ -49,7 +48,7 @@ c.plugins.install('zero')
 c.plugins.uninstall('zero')
 ```
 
-## Configs Command
+### Configs Command
 
 ```python
 # Get list of template config line
@@ -147,8 +146,7 @@ config_id = c.configs.autocreate()
 
 ## Tests
 
-Running unit tests
-------------------
+### Running unit tests
 
 ```
 pip install tox
