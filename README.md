@@ -16,6 +16,9 @@ c = Client('localhost', verify_certificate=False)
 # Update plugins list
 c.plugins.update()
 
+# Get plugin info
+plugin = c.plugins.get('xivo-aastra-2.6.0.2019')
+
 # Get list of installed plugins
 plugins_installed = c.plugins.list_installed(search='aastra')
 
@@ -40,12 +43,29 @@ plugins_installable = c.plugins.list_installable()
        }
     }]
 
-
 # Install a plugin
 c.plugins.install('zero')
 
 # Uninstall a plugin
 c.plugins.uninstall('zero')
+
+# Upgrade a plugin
+c.plugins.upgrade('xivo-aastra-2.6.0.2019')
+
+# List packages installed for a plugin
+packages_installed = c.plugins.get_packages_installed('xivo-aastra-2.6.0.2019')
+
+# List packages installable for a plugin
+packages_installable = c.plugins.get_packages_installable('xivo-aastra-2.6.0.2019')
+
+# Install a package for a plugin
+c.plugins.install_package('xivo-aastra-2.6.0.2019', '6730i-fw')
+
+# Uninstall a package for a plugin
+c.plugins.uninstall_package('xivo-aastra-2.6.0.2019', '6730i-fw')
+
+# Upgrade a package for a plugin
+c.plugins.uninstall_package('xivo-aastra-2.6.0.2019', '6730i-fw')
 ```
 
 ### Configs Command
