@@ -9,8 +9,12 @@ class ProvdError(HTTPError):
     def __init__(self, response):
         self.status_code = response.status_code
         self.message = response.text
-        valid_provd_errors = (codes.bad_request, codes.unsupported_media_type,
-                              codes.not_found, codes.server_error)
+        valid_provd_errors = (
+            codes.bad_request,
+            codes.unsupported_media_type,
+            codes.not_found,
+            codes.server_error,
+        )
         if self.status_code not in valid_provd_errors:
             raise InvalidProvdError()
 
