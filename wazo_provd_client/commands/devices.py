@@ -16,7 +16,7 @@ class DevicesCommand(ProvdCommand):
         self.raise_from_response(r)
         return r.json()
 
-    def find(self, *args, **kwargs):
+    def list(self, *args, **kwargs):
         """Return a list of devices matching the given parameters.
 
         Valid arguments to this method are, in order:
@@ -29,7 +29,7 @@ class DevicesCommand(ProvdCommand):
 
         """
         url = '{base}/devices'.format(base=self.base_url)
-        r = self.session.get(url, params=self._build_find_query(*args, **kwargs))
+        r = self.session.get(url, params=self._build_list_params(*args, **kwargs))
 
         return r.json()
 
@@ -40,13 +40,13 @@ class DevicesCommand(ProvdCommand):
         r = self.session.put(url, json=data, headers=self._headers)
         self.raise_from_response(r)
 
-    def add(self, data):
+    def create(self, data):
         url = '{base}/devices'.format(base=self.base_url)
         r = self.session.post(url, json={'device': data}, headers=self._headers)
         self.raise_from_response(r)
         return r.json()
 
-    def remove(self, id_):
+    def delete(self, id_):
         url = '{base}/devices/{id_}'.format(base=self.base_url, id_=id_)
         r = self.session.delete(url)
         self.raise_from_response(r)

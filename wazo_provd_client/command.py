@@ -23,7 +23,7 @@ class ProvdCommand(RESTCommand):
             RESTCommand.raise_from_response(response)
 
     @staticmethod
-    def _build_find_query(selector=None, fields=None, skip=0, limit=0, sort=None):
+    def _build_list_params(selector=None, fields=None, skip=0, limit=0, sort=None):
         query_dict = {}
         if selector:
             query_dict['q'] = json.dumps(selector)
