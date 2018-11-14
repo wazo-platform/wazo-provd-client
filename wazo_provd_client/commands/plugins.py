@@ -14,7 +14,7 @@ class PluginsCommand(ProvdCommand):
 
     def update(self):
         url = '{base}/install/update'.format(base=self.base_url)
-        r = self.session.post(url, data=json.dumps({}), headers=self._headers)
+        r = self.session.post(url, json={}, headers=self._headers)
         self.raise_from_response(r)
 
     def get(self, id_):
@@ -25,17 +25,17 @@ class PluginsCommand(ProvdCommand):
 
     def upgrade(self, id_):
         url = '{base}/install/upgrade'.format(base=self.base_url)
-        r = self.session.post(url, data=json.dumps({'id': id_}), headers=self._headers)
+        r = self.session.post(url, json={'id': id_}, headers=self._headers)
         self.raise_from_response(r)
 
     def install(self, id_):
         url = '{base}/install/install'.format(base=self.base_url)
-        r = self.session.post(url, data=json.dumps({'id': id_}), headers=self._headers)
+        r = self.session.post(url, json={'id': id_}, headers=self._headers)
         self.raise_from_response(r)
 
     def uninstall(self, id_):
         url = '{base}/install/uninstall'.format(base=self.base_url)
-        r = self.session.post(url, data=json.dumps({'id': id_}), headers=self._headers)
+        r = self.session.post(url, json={'id': id_}, headers=self._headers)
         self.raise_from_response(r)
 
     def list_installed(self, **params):
@@ -64,15 +64,15 @@ class PluginsCommand(ProvdCommand):
 
     def install_package(self, plugin, package):
         url = '{base}/plugins/{plugin}/install/install'.format(base=self.base_url, plugin=plugin)
-        r = self.session.post(url, data=json.dumps({'id': package}), headers=self._headers)
+        r = self.session.post(url, json={'id': package}, headers=self._headers)
         self.raise_from_response(r)
 
     def uninstall_package(self, plugin, package):
         url = '{base}/plugins/{plugin}/install/uninstall'.format(base=self.base_url, plugin=plugin)
-        r = self.session.post(url, data=json.dumps({'id': package}), headers=self._headers)
+        r = self.session.post(url, json={'id': package}, headers=self._headers)
         self.raise_from_response(r)
 
     def upgrade_package(self, plugin, package):
         url = '{base}/plugins/{plugin}/install/upgrade'.format(base=self.base_url, plugin=plugin)
-        r = self.session.post(url, data=json.dumps({'id': package}), headers=self._headers)
+        r = self.session.post(url, json={'id': package}, headers=self._headers)
         self.raise_from_response(r)

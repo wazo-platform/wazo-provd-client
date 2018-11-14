@@ -23,24 +23,23 @@ class ProvdCommand(RESTCommand):
             RESTCommand.raise_from_response(response)
 
     @staticmethod
-    def _build_list_params(selector=None, fields=None, skip=0, limit=0, sort=None):
-        query_dict = {}
-        if selector:
-            query_dict['q'] = json.dumps(selector)
+    def _build_list_params(search=None, fields=None, offset=0, limit=0, order=None, direction=None, *args):
+        params = {}
+        if args:
+            params['q'] = json.dumps(args[0])
+        if search:
+            params['q'] = json.dumps(search)
         if fields:
-            query_dict['fields'] = ','.join(fields)
-        if skip:
-            query_dict['skip'] = skip
+            params['fields'] = ','.join(fields)
+        if offset:
+            params['skip'] = offset
         if limit:
-            query_dict['limit'] = limit
-        if sort:
-            key, direction = sort
-            query_dict['sort'] = key
-            if direction == 1:
-                query_dict['sort_ord'] = 'ASC'
-            elif direction == -1:
-                query_dict['sort_ord'] = 'DESC'
-            else:
-                raise ValueError('invalid direction {}'.format(direction))
+            params['limit'] = limit
+        if order and direction:
+            params['sort'] = order
+            valid_directions = ('asc', 'desc')
+            if direction not in valid_directions:
+                raise ValueError('Invalid direction {}'.format(direction))
+            params['sort_ord'] = direction.upper()
 
-        return query_dict
+        return params

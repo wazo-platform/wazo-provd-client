@@ -27,20 +27,10 @@ class ConfigsCommand(ProvdCommand):
         self.raise_from_response(r)
         return r.json()
 
-    def find(self, *args, **kwargs):
-        """Return a list of configs matching the given parameters.
-
-        Valid arguments to this methods are, in order:
-          selector -- a selector (i.e. a dict)
-          fields -- a list of fields
-          skip -- a skip value, i.e. the number of documents to skip
-          limit -- a limit, i.e. the maximum number of documents to return
-          sort -- a tuple (key, direction), where key is the key to do the sort
-            and direction is either 1 for ASC and -1 for DESC
-
-        """
+    def list(self, *args, **kwargs):
         url = '{base}/configs'.format(base=self.base_url)
-        r = self.session.get(url, params=self._build_find_query(*args, **kwargs))
+        r = self.session.get(url, params=self._build_list_params(*args, **kwargs))
+        self.raise_from_response(r)
         return r.json()
 
     def get_all(self):
