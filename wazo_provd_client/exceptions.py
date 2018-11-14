@@ -22,7 +22,7 @@ class ProvdError(HTTPError):
         super(ProvdError, self).__init__(exception_message, response=response)
 
 
-class ProvdServiceUnavailable(ProvdError):
+class ProvdServiceUnavailable(Exception):
     pass
 
 
