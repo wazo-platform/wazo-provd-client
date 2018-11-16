@@ -7,8 +7,48 @@ A python client library to access xivo-provd
 ```python
 from wazo_provd_client import Client
 
-c = Client('localhost', verify_certificate=False)
+c = Client('localhost', https=False, prefix='/provd')
 ```
+
+### Devices command
+
+```python
+# Get device info
+device = c.devices.get('device_id')
+
+# Get list of devices
+device_list = c.devices.list(search={'ip': '10.10.10.10'})
+
+# Update device info
+# The value must be a dictionary containing at least the id key
+c.devices.update({'id': '1234567890abcdef', 'ip': '10.10.10.10'})
+
+# Create device
+device_id = c.devices.create({'ip': '10.10.10.10', 'mac': '00:11:22:33:44:55', 'plugin': 'zero'})
+
+    # example of result
+    {'id': '1234567890abcdef'}
+
+# Delete device
+c.devices.delete('1234567890abcdef')
+
+# Synchronize device
+c.devices.synchronize('1234567890abcdef')
+
+# Reconfigure device
+c.devices.reconfigure('1234567890abcdef')
+
+# Create device from DHCP request
+c.devices.create_from_dhcp(
+    {
+        "ip": "string",
+        "mac": "string",
+        "op": "commit",
+        "options": [
+            "string"
+        ]
+    }
+)
 
 ### Plugins Command
 
