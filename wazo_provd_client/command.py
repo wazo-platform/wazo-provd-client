@@ -8,9 +8,18 @@ from xivo_lib_rest_client.command import RESTCommand
 from .exceptions import ProvdError
 from .exceptions import ProvdServiceUnavailable
 from .exceptions import InvalidProvdError
+from . import operation
 
 
 class ProvdCommand(RESTCommand):
+
+    def get_operation(self, location):
+        location_parts = location.split('/')
+        location_operation = '/'.join(location_parts[2:])  # We do not want /provd/{pg,dev,cfg}_mgr/ prefix
+        url = '{base}/{location}'.format(base=self.base_url, location=location_operation)
+        r = self.session.get(url)
+        self.raise_from_response(r)
+        return operation.parse_operation(r.json())
 
     @staticmethod
     def raise_from_response(response):
