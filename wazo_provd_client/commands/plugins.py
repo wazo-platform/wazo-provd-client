@@ -16,6 +16,7 @@ class PluginsCommand(ProvdCommand):
         url = '{base}/install/update'.format(base=self.base_url)
         r = self.session.post(url, json={}, headers=self._headers)
         self.raise_from_response(r)
+        return r.headers['Location']
 
     def get(self, id_):
         url = '{base}/plugins/{id_}/info'.format(base=self.base_url, id_=id_)
@@ -27,11 +28,13 @@ class PluginsCommand(ProvdCommand):
         url = '{base}/install/upgrade'.format(base=self.base_url)
         r = self.session.post(url, json={'id': id_}, headers=self._headers)
         self.raise_from_response(r)
+        return r.headers['Location']
 
     def install(self, id_):
         url = '{base}/install/install'.format(base=self.base_url)
         r = self.session.post(url, json={'id': id_}, headers=self._headers)
         self.raise_from_response(r)
+        return r.headers['Location']
 
     def uninstall(self, id_):
         url = '{base}/install/uninstall'.format(base=self.base_url)
@@ -66,6 +69,7 @@ class PluginsCommand(ProvdCommand):
         url = '{base}/plugins/{plugin}/install/install'.format(base=self.base_url, plugin=plugin)
         r = self.session.post(url, json={'id': package}, headers=self._headers)
         self.raise_from_response(r)
+        return r.headers['Location']
 
     def uninstall_package(self, plugin, package):
         url = '{base}/plugins/{plugin}/install/uninstall'.format(base=self.base_url, plugin=plugin)
@@ -76,3 +80,4 @@ class PluginsCommand(ProvdCommand):
         url = '{base}/plugins/{plugin}/install/upgrade'.format(base=self.base_url, plugin=plugin)
         r = self.session.post(url, json={'id': package}, headers=self._headers)
         self.raise_from_response(r)
+        return r.headers['Location']
