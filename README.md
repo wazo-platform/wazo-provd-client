@@ -10,6 +10,18 @@ from wazo_provd_client import Client
 c = Client('localhost', https=False, prefix='/provd')
 ```
 
+### Operation in progress
+
+The devices and plugins commands provide some methods that are asynchronous. To get
+the state of an operation, provd provides a resource called an Operation In Progress.
+Every asynchronous method returns the location of the operation in progress that
+it created. You can convert this location to an object by calling the method
+get_operation on the command you are using (ie `client.plugins.get_operation`).
+One important thing to know about this mechanism is that *provd does not delete
+the resource it created*. To avoid resource leaking, the client provides a method
+called delete_operation that you can call with the same location that was returned
+from an asynchronous method.
+
 ### Devices command
 
 ```python
@@ -49,6 +61,7 @@ c.devices.create_from_dhcp(
         ]
     }
 )
+
 ```
 
 ### Plugins Command
@@ -86,6 +99,13 @@ plugins_installable = c.plugins.list_installable()
 
 # Install a plugin and get its operation in progress location
 operation_location = c.plugins.install('zero')
+
+# Get the operation in progress state
+operation_progress = c.plugins.get_operation(operation_location)
+# operation_progress.state can be OIP_SUCCESS, OIP_FAIL, or other values defined in the operation module
+
+# When you are done with the operation, you have to delete the operation in progress
+c.plugins.delete_operation(operation_location)
 
 # Uninstall a plugin
 c.plugins.uninstall('zero')
