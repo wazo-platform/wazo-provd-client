@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0+
 
 import json
+from contextlib import contextmanager
 
 from xivo_lib_rest_client.command import RESTCommand
 
@@ -29,6 +30,14 @@ class ProvdCommand(RESTCommand):
         url = '{base}/{location}'.format(base=self.base_url, location=location)
         r = self.session.delete(url)
         self.raise_from_response(r)
+
+    @contextmanager
+    def operation_resource(self, location):
+        operation_info = self.get_operation(location)
+        try:
+            yield operation_info
+        finally:
+            self.delete_operation(location)
 
     @staticmethod
     def raise_from_response(response):
