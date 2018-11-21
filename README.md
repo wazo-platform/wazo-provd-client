@@ -32,8 +32,8 @@ device_id = c.devices.create({'ip': '10.10.10.10', 'mac': '00:11:22:33:44:55', '
 # Delete device
 c.devices.delete('1234567890abcdef')
 
-# Synchronize device
-c.devices.synchronize('1234567890abcdef')
+# Synchronize device and get its operation in progress location
+operation_location = c.devices.synchronize('1234567890abcdef')
 
 # Reconfigure device
 c.devices.reconfigure('1234567890abcdef')
