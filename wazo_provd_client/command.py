@@ -13,13 +13,22 @@ from . import operation
 
 class ProvdCommand(RESTCommand):
 
-    def get_operation(self, location):
+    def _fix_location_url(self, location):
         location_parts = location.split('/')
-        location_operation = '/'.join(location_parts[3:])  # We do not want /provd/{pg,dev,cfg}_mgr/ prefix
-        url = '{base}/{location}'.format(base=self.base_url, location=location_operation)
+        return '/'.join(location_parts[3:])  # We do not want /provd/{pg,dev,cfg}_mgr/ prefix
+
+    def get_operation(self, location):
+        location = self._fix_location_url(location)
+        url = '{base}/{location}'.format(base=self.base_url, location=location)
         r = self.session.get(url)
         self.raise_from_response(r)
         return operation.parse_operation(r.json()['status'])
+
+    def delete_operation(self, location):
+        location = self._fix_location_url(location)
+        url = '{base}/{location}'.format(base=self.base_url, location=location)
+        r = self.session.delete(url)
+        self.raise_from_response(r)
 
     @staticmethod
     def raise_from_response(response):
