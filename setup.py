@@ -23,6 +23,7 @@ setup(
             'configs = wazo_provd_client.commands.configs:ConfigsCommand',
             'plugins = wazo_provd_client.commands.plugins:PluginsCommand',
             'devices = wazo_provd_client.commands.devices:DevicesCommand',
+            'params = wazo_provd_client.commands.params:ParamsCommand',
         ],
     }
 )
