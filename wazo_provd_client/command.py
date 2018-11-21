@@ -14,31 +14,6 @@ from . import operation
 
 class ProvdCommand(RESTCommand):
 
-    def _fix_location_url(self, location):
-        location_parts = location.split('/')
-        return '/'.join(location_parts[3:])  # We do not want /provd/{pg,dev,cfg}_mgr/ prefix
-
-    def get_operation(self, location):
-        location = self._fix_location_url(location)
-        url = '{base}/{location}'.format(base=self.base_url, location=location)
-        r = self.session.get(url)
-        self.raise_from_response(r)
-        return operation.parse_operation(r.json()['status'])
-
-    def delete_operation(self, location):
-        location = self._fix_location_url(location)
-        url = '{base}/{location}'.format(base=self.base_url, location=location)
-        r = self.session.delete(url)
-        self.raise_from_response(r)
-
-    @contextmanager
-    def operation_resource(self, location):
-        operation_info = self.get_operation(location)
-        try:
-            yield operation_info
-        finally:
-            self.delete_operation(location)
-
     @staticmethod
     def raise_from_response(response):
         if response.status_code == 503:
