@@ -205,6 +205,22 @@ c.configs.delete(id)
 config_id = c.configs.autocreate()
 ```
 
+### Params Command
+
+```python
+# Get list of provd configuration parameters
+params = c.params.list()
+
+# Get the value of a parameter
+value = c.params.get(param_name)
+
+# Update a configuration parameter
+c.params.update(param_name, value)
+
+# Unset the value of a parameter
+c.params.delete(param_name)
+```
+
 ## Tests
 
 ### Running unit tests
