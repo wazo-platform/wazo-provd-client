@@ -14,7 +14,7 @@ OIP_FAIL = 'fail'
 _PARSE_OIP_REGEX = re.compile(r'^(?:(\w+)\|)?(\w+)(?:;(\d+)(?:/(\d+))?)?')
 
 
-class BasicOperation(object):
+class BaseOperation(object):
 
     def __init__(self, label=None, state=OIP_WAITING, current=None, end=None, sub_oips=None):
         self.label = label
@@ -24,7 +24,7 @@ class BasicOperation(object):
         self.sub_oips = sub_oips or []
 
 
-class OperationInProgress(BasicOperation):
+class OperationInProgress(BaseOperation):
 
     def __init__(self, command, location):
         super(OperationInProgress, self).__init__()
@@ -55,7 +55,7 @@ def _parse_operation(operation_string):
         raw_sub_oips = operation_string[m.end():]
         current = raw_current if raw_current is None else int(raw_current)
         end = raw_end if raw_end is None else int(raw_end)
-        sub_oips = [BasicOperation(**_parse_operation(sub_oip_string)) for sub_oip_string in
+        sub_oips = [BaseOperation(**_parse_operation(sub_oip_string)) for sub_oip_string in
                     _split_top_parentheses(raw_sub_oips)]
         return {'label': label, 'state': state, 'current': current, 'end': end, 'sub_oips': sub_oips}
 
