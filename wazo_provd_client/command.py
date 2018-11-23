@@ -2,14 +2,12 @@
 # SPDX-License-Identifier: GPL-3.0+
 
 import json
-from contextlib import contextmanager
 
 from xivo_lib_rest_client.command import RESTCommand
 
 from .exceptions import ProvdError
 from .exceptions import ProvdServiceUnavailable
 from .exceptions import InvalidProvdError
-from . import operation
 
 
 class ProvdCommand(RESTCommand):

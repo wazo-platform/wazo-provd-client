@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: GPL-3.0+
 
 from unittest import TestCase
-from requests.exceptions import HTTPError
 
 from hamcrest import (
     assert_that,

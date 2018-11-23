@@ -1,8 +1,6 @@
 # Copyright 2018 The Wazo Authors  (see AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0+
 
-import json
-
 from wazo_provd_client.command import ProvdCommand
 from wazo_provd_client.operation import OperationInProgress
 
