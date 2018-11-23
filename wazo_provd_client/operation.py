@@ -26,11 +26,12 @@ class BaseOperation(object):
 
 class OperationInProgress(BaseOperation):
 
-    def __init__(self, command, location):
+    def __init__(self, command, location, delete_on_exit=True):
         super(OperationInProgress, self).__init__()
         self._command = command
         self._location = _fix_location_url(location)
         self._url = '{base}/{location}'.format(base=self._command.base_url, location=self._location)
+        self._delete_on_exit = delete_on_exit
 
         self.update()
 
@@ -44,6 +45,13 @@ class OperationInProgress(BaseOperation):
     def delete(self):
         r = self._command.session.delete(self._url)
         self._command.raise_from_response(r)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        if self._delete_on_exit:
+            self.delete()
 
 
 def _parse_operation(operation_string):
