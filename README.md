@@ -14,13 +14,10 @@ c = Client('localhost', https=False, prefix='/provd')
 
 The devices and plugins commands provide some methods that are asynchronous. To get
 the state of an operation, provd provides a resource called an Operation In Progress.
-Every asynchronous method returns the location of the operation in progress that
-it created. You can convert this location to an object by calling the method
-get_operation on the command you are using (ie `client.plugins.get_operation`).
-One important thing to know about this mechanism is that *provd does not delete
-the resource it created*. To avoid resource leaking, the client provides a method
-called delete_operation that you can call with the same location that was returned
-from an asynchronous method.
+Every asynchronous method returns the OperationInProgress object that it created.
+One important thing to know about this mechanism is that *provd does not delete the
+resource it created*. To avoid resource leaking, you must use the delete method on
+the object returned or use the OperationInProgress as a context manager.
 
 ### Devices command
 
@@ -97,21 +94,24 @@ plugins_installable = c.plugins.list_installable()
        }
     }]
 
-# Install a plugin and get its operation in progress location
-operation_location = c.plugins.install('zero')
+# Install a plugin and get its operation in progress
+operation_progress = c.plugins.install('zero')
 
-# Get the operation in progress state
-operation_progress = c.plugins.get_operation(operation_location)
-# operation_progress.state can be OIP_SUCCESS, OIP_FAIL, or other values defined in the operation module
+# Update the status of the operation in progress
+operation_progress.update()
 
-# When you are done with the operation, you have to delete the operation in progress
-c.plugins.delete_operation(operation_location)
+# Delete the operation in progress
+operation_progress.delete()
+
+# or you can also use it directly as a context manager
+with c.plugins.install('zero') as operation:
+    operation.update()
 
 # Uninstall a plugin
 c.plugins.uninstall('zero')
 
-# Upgrade a plugin and get its operation in progress location
-operation_location = c.plugins.upgrade('xivo-aastra-2.6.0.2019')
+# Upgrade a plugin and get its operation in progress
+operation_progress = c.plugins.upgrade('xivo-aastra-2.6.0.2019')
 
 # List packages installed for a plugin
 packages_installed = c.plugins.get_packages_installed('xivo-aastra-2.6.0.2019')
@@ -120,13 +120,13 @@ packages_installed = c.plugins.get_packages_installed('xivo-aastra-2.6.0.2019')
 packages_installable = c.plugins.get_packages_installable('xivo-aastra-2.6.0.2019')
 
 # Install a package for a plugin and get its operation in progress location
-operation_location = c.plugins.install_package('xivo-aastra-2.6.0.2019', '6730i-fw')
+operation_progress = c.plugins.install_package('xivo-aastra-2.6.0.2019', '6730i-fw')
 
 # Uninstall a package for a plugin
 c.plugins.uninstall_package('xivo-aastra-2.6.0.2019', '6730i-fw')
 
 # Upgrade a package for a plugin and get its operation in progress location
-operation_location = c.plugins.upgrade_package('xivo-aastra-2.6.0.2019', '6730i-fw')
+operation_progress = c.plugins.upgrade_package('xivo-aastra-2.6.0.2019', '6730i-fw')
 ```
 
 ### Configs Command
