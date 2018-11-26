@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018 The Wazo Authors  (see AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0+
 
 from unittest import TestCase
-from requests.exceptions import HTTPError
 
 from hamcrest import (
     assert_that,
@@ -17,13 +15,6 @@ from ..exceptions import (
     ProvdError,
     ProvdServiceUnavailable,
 )
-
-SOME_ERROR_BODY = {
-    'message': 'some message',
-    'error_id': 'some-error-id',
-    'details': {},
-    'timestamp': 'some-date',
-}
 
 
 class TestProvdCommand(TestCase):

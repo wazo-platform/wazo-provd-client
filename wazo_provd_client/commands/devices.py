@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0+
 
 from wazo_provd_client.command import ProvdCommand
+from wazo_provd_client.operation import OperationInProgress
 
 
 class DevicesCommand(ProvdCommand):
@@ -45,6 +46,7 @@ class DevicesCommand(ProvdCommand):
         data = {'id': id_}
         r = self.session.post(url, json=data, headers=self._headers)
         self.raise_from_response(r)
+        return OperationInProgress(self, r.headers['Location'])
 
     def reconfigure(self, id_):
         url = '{base}/reconfigure'.format(base=self.base_url)
