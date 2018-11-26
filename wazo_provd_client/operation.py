@@ -35,9 +35,12 @@ class OperationInProgress(BaseOperation):
     def update(self):
         r = self._command.session.get(self._url)
         self._command.raise_from_response(r)
-        attributes = _parse_operation(r.json()['status'])
-        for name in attributes:
-            setattr(self, name, attributes[name])
+        base_operation = parse_operation(r.json()['status'])
+        self.label = base_operation.label
+        self.state = base_operation.state
+        self.current = base_operation.current
+        self.end = base_operation.end
+        self.sub_oips = base_operation.sub_oips
 
     def delete(self):
         r = self._command.session.delete(self._url)
@@ -51,7 +54,7 @@ class OperationInProgress(BaseOperation):
             self.delete()
 
 
-def _parse_operation(operation_string):
+def parse_operation(operation_string):
     m = _PARSE_OIP_REGEX.search(operation_string)
     if not m:
         raise ValueError('Invalid progress string: {}'.format(operation_string))
@@ -60,9 +63,9 @@ def _parse_operation(operation_string):
         raw_sub_oips = operation_string[m.end():]
         current = raw_current if raw_current is None else int(raw_current)
         end = raw_end if raw_end is None else int(raw_end)
-        sub_oips = [BaseOperation(**_parse_operation(sub_oip_string)) for sub_oip_string in
+        sub_oips = [parse_operation(sub_oip_string) for sub_oip_string in
                     _split_top_parentheses(raw_sub_oips)]
-        return {'label': label, 'state': state, 'current': current, 'end': end, 'sub_oips': sub_oips}
+        return BaseOperation(label, state, current, end, sub_oips)
 
 
 def _fix_location_url(location):
