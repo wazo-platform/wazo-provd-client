@@ -16,13 +16,6 @@ from ..exceptions import (
     ProvdServiceUnavailable,
 )
 
-SOME_ERROR_BODY = {
-    'message': 'some message',
-    'error_id': 'some-error-id',
-    'details': {},
-    'timestamp': 'some-date',
-}
-
 
 class TestProvdCommand(TestCase):
 
