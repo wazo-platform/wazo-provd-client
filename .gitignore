@@ -7,3 +7,8 @@
 .tox
 build
 dist
+.coverage
+coverage.xml
+pycodestyle.txt
+pylint.txt
+nosetests.xml

@@ -12,7 +12,7 @@ class Client(BaseClient):
                  port=8666,
                  version='',
                  **kwargs):
-        super().__init__(
+        super(Client, self).__init__(
             host=host,
             port=port,
             version=version,
