@@ -14,6 +14,7 @@ class ProvdError(HTTPError):
             codes.unsupported_media_type,
             codes.not_found,
             codes.server_error,
+            codes.unauthorized,
         )
         if self.status_code not in valid_provd_errors:
             raise InvalidProvdError()
