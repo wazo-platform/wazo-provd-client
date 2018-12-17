@@ -23,7 +23,7 @@ class ParamsCommand(ProvdCommand):
         url = '{base}/{param}'.format(base=self.base_url, param=param)
         r = self.session.get(url)
         self.raise_from_response(r)
-        return r.json()
+        return r.json()['param']
 
     def update(self, param, value):
         url = '{base}/{param}'.format(base=self.base_url, param=param)
