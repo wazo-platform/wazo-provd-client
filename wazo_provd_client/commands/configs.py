@@ -57,7 +57,8 @@ class ConfigsCommand(ProvdCommand):
         self.raise_from_response(r)
         return r.json()
 
-    def update(self, id_, data):
+    def update(self, data):
+        id_ = data['id']
         url = '{base}/configs/{id_}'.format(base=self.base_url, id_=id_)
         r = self.session.put(url, json={'config': data}, headers=self._headers)
         self.raise_from_response(r)
