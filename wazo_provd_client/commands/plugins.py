@@ -40,6 +40,12 @@ class PluginsCommand(ProvdCommand):
         r = self.session.post(url, json={'id': id_}, headers=self._headers)
         self.raise_from_response(r)
 
+    def list(self, **params):
+        url = '{base}/plugins'.format(base=self.base_url)
+        r = self.session.get(url, params=params)
+        self.raise_from_response(r)
+        return r.json()
+
     def list_installed(self, **params):
         url = '{base}/install/installed'.format(base=self.base_url)
         r = self.session.get(url, params=params)

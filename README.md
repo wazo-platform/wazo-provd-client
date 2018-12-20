@@ -70,6 +70,9 @@ c.plugins.update()
 # Get plugin info
 plugin = c.plugins.get('xivo-aastra-2.6.0.2019')
 
+# Get list of installed plugin names
+installed_plugin_names = c.plugins.list()
+
 # Get list of installed plugins
 plugins_installed = c.plugins.list_installed()
 
