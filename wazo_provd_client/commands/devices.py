@@ -15,7 +15,7 @@ class DevicesCommand(ProvdCommand):
         url = '{base}/devices/{id_}'.format(base=self.base_url, id_=device_id)
         r = self.session.get(url)
         self.raise_from_response(r)
-        return r.json()
+        return r.json()['device']
 
     def list(self, *args, **kwargs):
         url = '{base}/devices'.format(base=self.base_url)

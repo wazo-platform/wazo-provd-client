@@ -21,7 +21,7 @@ class PluginsCommand(ProvdCommand):
         url = '{base}/plugins/{id_}/info'.format(base=self.base_url, id_=id_)
         r = self.session.get(url)
         self.raise_from_response(r)
-        return r.json()
+        return r.json()['plugin_info']
 
     def upgrade(self, id_):
         url = '{base}/install/upgrade'.format(base=self.base_url)

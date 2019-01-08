@@ -43,13 +43,13 @@ class ConfigsCommand(ProvdCommand):
         url = '{base}/configs/{id_}'.format(base=self.base_url, id_=id_)
         r = self.session.get(url, headers=self._headers)
         self.raise_from_response(r)
-        return r.json()
+        return r.json()['config']
 
     def get_raw(self, id_):
         url = '{base}/configs/{id_}/raw'.format(base=self.base_url, id_=id_)
         r = self.session.get(url, headers=self._headers)
         self.raise_from_response(r)
-        return r.json()
+        return r.json()['raw_config']
 
     def create(self, data):
         url = '{base}/configs'.format(base=self.base_url)
@@ -57,7 +57,8 @@ class ConfigsCommand(ProvdCommand):
         self.raise_from_response(r)
         return r.json()
 
-    def update(self, id_, data):
+    def update(self, data):
+        id_ = data['id']
         url = '{base}/configs/{id_}'.format(base=self.base_url, id_=id_)
         r = self.session.put(url, json={'config': data}, headers=self._headers)
         self.raise_from_response(r)
