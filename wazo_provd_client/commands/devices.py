@@ -11,16 +11,21 @@ class DevicesCommand(ProvdCommand):
         'Content-Type': 'application/vnd.proformatique.provd+json'
     }
 
-    def _build_headers(self, include_general_headers, kwargs):
-        headers = dict(self._headers) if include_general_headers else {}
+    def _build_headers(self, kwargs):
+        headers = {}
         tenant_uuid = kwargs.pop('tenant_uuid', None) or self._client.tenant()
         if tenant_uuid:
             headers['Wazo-Tenant'] = tenant_uuid
         return headers
 
+    def _build_headers_with_global_headers(self, kwargs):
+        headers = dict(self._headers)
+        headers.update(kwargs)
+        return self._build_headers(headers)
+
     def get(self, device_id, **kwargs):
         url = '{base}/devices/{id_}'.format(base=self.base_url, id_=device_id)
-        r = self.session.get(url, headers=self._build_headers(False, kwargs), params=kwargs)
+        r = self.session.get(url, headers=self._build_headers(kwargs), params=kwargs)
         self.raise_from_response(r)
         return r.json()['device']
 
@@ -28,7 +33,7 @@ class DevicesCommand(ProvdCommand):
         url = '{base}/devices'.format(base=self.base_url)
         r = self.session.get(
             url,
-            headers=self._build_headers(False, kwargs),
+            headers=self._build_headers(kwargs),
             params=self._build_list_params(*args, **kwargs),
         )
         self.raise_from_response(r)
@@ -41,7 +46,7 @@ class DevicesCommand(ProvdCommand):
         r = self.session.put(
             url,
             json=data,
-            headers=self._build_headers(True, kwargs),
+            headers=self._build_headers_with_global_headers(kwargs),
             params=kwargs,
         )
         self.raise_from_response(r)
@@ -52,7 +57,7 @@ class DevicesCommand(ProvdCommand):
         r = self.session.post(
             url,
             json=data,
-            headers=self._build_headers(True, kwargs),
+            headers=self._build_headers_with_global_headers(kwargs),
             params=kwargs,
         )
         self.raise_from_response(r)
@@ -60,7 +65,7 @@ class DevicesCommand(ProvdCommand):
 
     def delete(self, id_, **kwargs):
         url = '{base}/devices/{id_}'.format(base=self.base_url, id_=id_)
-        r = self.session.delete(url, headers=self._build_headers(True, kwargs), params=kwargs)
+        r = self.session.delete(url, headers=self._build_headers_with_global_headers(kwargs), params=kwargs)
         self.raise_from_response(r)
 
     def synchronize(self, id_, **kwargs):
@@ -69,7 +74,7 @@ class DevicesCommand(ProvdCommand):
         r = self.session.post(
             url,
             json=data,
-            headers=self._build_headers(True, kwargs),
+            headers=self._build_headers_with_global_headers(kwargs),
             params=kwargs,
         )
         self.raise_from_response(r)
@@ -81,7 +86,7 @@ class DevicesCommand(ProvdCommand):
         r = self.session.post(
             url,
             json=data,
-            headers=self._build_headers(True, kwargs),
+            headers=self._build_headers_with_global_headers(kwargs),
             params=kwargs,
         )
         self.raise_from_response(r)
@@ -91,7 +96,7 @@ class DevicesCommand(ProvdCommand):
         r = self.session.post(
             url,
             json={'dhcp_info': data},
-            headers=self._build_headers(True, kwargs),
+            headers=self._build_headers_with_global_headers(kwargs),
             params=kwargs,
         )
         self.raise_from_response(r)
