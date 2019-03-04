@@ -20,8 +20,8 @@ class DevicesCommand(ProvdCommand):
 
     def _build_headers_with_global_headers(self, kwargs):
         headers = dict(self._headers)
-        headers.update(kwargs)
-        return self._build_headers(headers)
+        headers.update(self._build_headers(kwargs))
+        return headers
 
     def get(self, device_id, **kwargs):
         url = '{base}/devices/{id_}'.format(base=self.base_url, id_=device_id)
