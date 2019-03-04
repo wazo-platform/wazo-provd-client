@@ -1,4 +1,4 @@
-# Copyright 2018 The Wazo Authors  (see AUTHORS file)
+# Copyright 2018-2019 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
@@ -23,7 +23,7 @@ class ProvdCommand(RESTCommand):
             RESTCommand.raise_from_response(response)
 
     @staticmethod
-    def _build_list_params(search=None, fields=None, offset=0, limit=0, order=None, direction=None, *args):
+    def _build_list_params(search=None, fields=None, offset=0, limit=0, order=None, direction=None, *args, **kwargs):
         params = {}
         if args:
             params['q'] = json.dumps(args[0])
@@ -41,5 +41,6 @@ class ProvdCommand(RESTCommand):
             if direction not in valid_directions:
                 raise ValueError('Invalid direction {}'.format(direction))
             params['sort_ord'] = direction.upper()
-
+        if kwargs:
+            params.update(kwargs)
         return params
