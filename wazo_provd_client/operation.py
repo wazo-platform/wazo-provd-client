@@ -1,4 +1,4 @@
-# Copyright (C) 2011-2018 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2011-2019 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
@@ -20,17 +20,44 @@ class BaseOperation(object):
         self.end = end
         self.sub_oips = sub_oips or []
 
+    def __str__(self):
+        status = '{}: {}'.format(self.label, self.state)
+        if self.current and self.end:
+            status += ' ({}/{})'.format(self.current, self.end)
+
+        if self.sub_oips:
+            for sub_oip in self.sub_oips:
+                status += '\n  {}'.format(sub_oip)
+
+        return status
+
 
 class OperationInProgress(BaseOperation):
 
     def __init__(self, command, location, delete_on_exit=True):
         super(OperationInProgress, self).__init__()
         self._command = command
-        self._location = _fix_location_url(location)
-        self._url = '{base}/{location}'.format(base=self._command.base_url, location=self._location)
+        self.location = location
+        fixed_location = self._fix_location_url(location)
+        self._url = '{base}/{location}'.format(base=self._command.base_url, location=fixed_location)
         self._delete_on_exit = delete_on_exit
 
         self.update()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        if self._delete_on_exit:
+            self.delete()
+
+    @property
+    def location(self):
+        return self._location
+
+    @location.setter
+    def location(self, value):
+        self._location = value
 
     def update(self):
         r = self._command.session.get(self._url)
@@ -46,12 +73,10 @@ class OperationInProgress(BaseOperation):
         r = self._command.session.delete(self._url)
         self._command.raise_from_response(r)
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, type, value, traceback):
-        if self._delete_on_exit:
-            self.delete()
+    @staticmethod
+    def _fix_location_url(location):
+        location_parts = location.split('/')
+        return '/'.join(location_parts[3:])  # We do not want /provd/{pg,dev,cfg}_mgr/ prefix
 
 
 def parse_operation(operation_string):
@@ -66,11 +91,6 @@ def parse_operation(operation_string):
         sub_oips = [parse_operation(sub_oip_string) for sub_oip_string in
                     _split_top_parentheses(raw_sub_oips)]
         return BaseOperation(label, state, current, end, sub_oips)
-
-
-def _fix_location_url(location):
-    location_parts = location.split('/')
-    return '/'.join(location_parts[3:])  # We do not want /provd/{pg,dev,cfg}_mgr/ prefix
 
 
 def _split_top_parentheses(str_):
