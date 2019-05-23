@@ -7,7 +7,7 @@ A python client library to access xivo-provd
 ```python
 from wazo_provd_client import Client
 
-c = Client('localhost', prefix='/provd')
+c = Client('localhost')
 ```
 
 ### Operation in progress
@@ -281,7 +281,7 @@ params = c.params.list()
                 'id': 'plugin_server',
                 'links': [
                         {
-                            'href': '/provd/configure/plugin_server',
+                            'href': '/configure/plugin_server',
                             'rel': 'srv.configure.param'
                         }
                     ],
