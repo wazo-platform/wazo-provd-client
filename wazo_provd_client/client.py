@@ -1,4 +1,4 @@
-# Copyright 2018 The Wazo Authors  (see AUTHORS file)
+# Copyright 2018-2019 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from xivo_lib_rest_client.client import BaseClient
@@ -10,7 +10,7 @@ class Client(BaseClient):
     def __init__(self,
                  host,
                  port=8666,
-                 version='',
+                 version='0.2',
                  **kwargs):
         super(Client, self).__init__(
             host=host,
