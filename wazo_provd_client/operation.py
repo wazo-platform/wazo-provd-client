@@ -76,7 +76,7 @@ class OperationInProgress(BaseOperation):
     @staticmethod
     def _fix_location_url(location):
         location_parts = location.split('/')
-        return '/'.join(location_parts[3:])  # We do not want /provd/{pg,dev,cfg}_mgr/ prefix
+        return '/'.join(location_parts[3:])  # We do not want /{version}/{pg,dev,cfg}_mgr/ prefix
 
 
 def parse_operation(operation_string):
