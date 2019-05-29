@@ -18,7 +18,7 @@ class ProvdCommand(RESTCommand):
             raise ProvdServiceUnavailable(response)
 
         try:
-            raise ProvdError(response)
+            raise ProvdError(response=response)
         except InvalidProvdError:
             RESTCommand.raise_from_response(response)
 

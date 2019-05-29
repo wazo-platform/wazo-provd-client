@@ -1,4 +1,4 @@
-# Copyright 2018 The Wazo Authors  (see AUTHORS file)
+# Copyright 2018-2019 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from requests import HTTPError, codes
@@ -6,9 +6,10 @@ from requests import HTTPError, codes
 
 class ProvdError(HTTPError):
 
-    def __init__(self, response):
-        self.status_code = response.status_code
-        self.message = response.text
+    def __init__(self, *args, **kwargs):
+        response = kwargs.get('response', None)
+        self.status_code = getattr(response, 'status_code', None)
+        self.message = getattr(response, 'text', None)
         valid_provd_errors = (
             codes.bad_request,
             codes.unsupported_media_type,
@@ -20,7 +21,7 @@ class ProvdError(HTTPError):
             raise InvalidProvdError()
 
         exception_message = '{e.message}'.format(e=self)
-        super(ProvdError, self).__init__(exception_message, response=response)
+        super(ProvdError, self).__init__(exception_message, *args, **kwargs)
 
 
 class ProvdServiceUnavailable(Exception):
