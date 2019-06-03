@@ -17,10 +17,7 @@ class ProvdCommand(RESTCommand):
         if response.status_code == 503:
             raise ProvdServiceUnavailable(response)
 
-        try:
-            raise ProvdError(response=response)
-        except InvalidProvdError:
-            RESTCommand.raise_from_response(response)
+        RESTCommand.raise_from_response(response)
 
     @staticmethod
     def _build_list_params(search=None, fields=None, offset=0, limit=0, order=None, direction=None, *args, **kwargs):

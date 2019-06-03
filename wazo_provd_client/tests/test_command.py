@@ -1,4 +1,4 @@
-# Copyright 2018 The Wazo Authors  (see AUTHORS file)
+# Copyright 2018-2019 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from unittest import TestCase
@@ -46,7 +46,5 @@ class TestProvdCommand(TestCase):
     def test_raise_from_response_default_error(self):
         response = Mock(status_code=404)
 
-        assert_that(
-            calling(ProvdCommand.raise_from_response).with_args(response),
-            raises(ProvdError)
-        )
+        ProvdCommand.raise_from_response(response)
+        response.raise_for_status.assert_called_once()
