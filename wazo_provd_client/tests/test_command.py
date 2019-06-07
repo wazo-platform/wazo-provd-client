@@ -8,7 +8,9 @@ from hamcrest import (
     calling,
     raises,
 )
+
 from mock import Mock, patch
+from requests.exceptions import HTTPError
 
 from ..command import ProvdCommand
 from ..exceptions import (
@@ -21,8 +23,7 @@ class TestProvdCommand(TestCase):
 
     @patch('wazo_provd_client.command.RESTCommand.raise_from_response')
     def test_raise_from_response_no_error(self, parent_raise):
-        response = Mock(status_code=200)
-
+        response = Mock()
         ProvdCommand.raise_from_response(response)
 
         parent_raise.assert_called_once_with(response)
@@ -35,16 +36,12 @@ class TestProvdCommand(TestCase):
             raises(ProvdServiceUnavailable)
         )
 
-    @patch('wazo_provd_client.command.RESTCommand.raise_from_response')
-    def test_raise_from_response_invalid_error(self, parent_raise):
-        response = Mock(status_code=599)
-
-        ProvdCommand.raise_from_response(response)
-
-        parent_raise.assert_called_once_with(response)
-
     def test_raise_from_response_default_error(self):
-        response = Mock(status_code=404)
+        response = Mock()
+        response.raise_for_status.side_effect = HTTPError('Error')
 
-        ProvdCommand.raise_from_response(response)
+        assert_that(
+            calling(ProvdCommand.raise_from_response).with_args(response),
+            raises(ProvdError)
+        )
         response.raise_for_status.assert_called_once()

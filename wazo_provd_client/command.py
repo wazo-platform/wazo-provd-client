@@ -3,6 +3,7 @@
 
 import json
 
+from requests.exceptions import HTTPError
 from xivo_lib_rest_client.command import RESTCommand
 
 from .exceptions import ProvdError
@@ -17,7 +18,10 @@ class ProvdCommand(RESTCommand):
         if response.status_code == 503:
             raise ProvdServiceUnavailable(response)
 
-        RESTCommand.raise_from_response(response)
+        try:
+            RESTCommand.raise_from_response(response)
+        except HTTPError as e:
+            raise ProvdError(e, response=response)
 
     @staticmethod
     def _build_list_params(search=None, fields=None, offset=0, limit=0, order=None, direction=None, *args, **kwargs):
