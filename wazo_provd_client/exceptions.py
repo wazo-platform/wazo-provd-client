@@ -5,7 +5,12 @@ from requests import HTTPError, codes
 
 
 class ProvdError(HTTPError):
-    pass
+
+    def __init__(self, *args, **kwargs):
+        response = kwargs.get('response', None)
+        self.status_code = getattr(response, 'status_code', None)
+        super(ProvdError, self).__init__(*args, **kwargs)
+
 
 class ProvdServiceUnavailable(Exception):
     pass
