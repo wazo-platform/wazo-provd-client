@@ -1,6 +1,6 @@
 Format: http://dep.debian.net/deps/dep5
 Upstream-Name: wazo-provd-client
-Source: https://github.com/wazo-pbx/wazo-provd-client
+Source: https://github.com/wazo-platform/wazo-provd-client
 
 Files: *
 Copyright: 2018 The Wazo Authors
