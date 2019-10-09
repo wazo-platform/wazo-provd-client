@@ -304,7 +304,7 @@ c.params.delete(param_name)
 
 ```
 pip install tox
-tox --recreate -e py35
+tox --recreate -e py37
 ```
 
 ## How to implement a new command
