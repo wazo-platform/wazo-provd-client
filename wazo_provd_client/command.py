@@ -4,7 +4,7 @@
 import json
 
 from requests.exceptions import HTTPError
-from xivo_lib_rest_client.command import RESTCommand
+from wazo_lib_rest_client.command import RESTCommand
 
 from .exceptions import ProvdError
 from .exceptions import ProvdServiceUnavailable
