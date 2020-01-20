@@ -8,6 +8,9 @@ A python client library to access xivo-provd
 from wazo_provd_client import Client
 
 c = Client('localhost')
+
+c.status.get()
+{"rest_api": "ok"}
 ```
 
 ### Operation in progress
