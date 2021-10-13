@@ -1,4 +1,4 @@
-# Copyright 2018-2019 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2018-2021 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from wazo_provd_client.command import ProvdCommand
@@ -13,7 +13,8 @@ class DevicesCommand(ProvdCommand):
 
     def _build_headers(self, kwargs):
         headers = {}
-        tenant_uuid = kwargs.pop('tenant_uuid', None) or self._client.tenant()
+        # The requests session will use self.tenant_uuid by default
+        tenant_uuid = kwargs.pop('tenant_uuid', None)
         if tenant_uuid:
             headers['Wazo-Tenant'] = tenant_uuid
         return headers
