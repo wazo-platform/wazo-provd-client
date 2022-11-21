@@ -28,48 +28,48 @@ the object returned or use the OperationInProgress as a context manager.
 # Get device info
 device = c.devices.get('device_id')
 
-    # example of result
-    {
-        'added': 'auto',
-        'ip': '10.34.0.123',
-        'configured': False,
-        'mac': '00:11:22:33:44:55',
-        'config': 'autoprov1234567890',
-        'id': '5dad2f2b3725438baa400bea8a55f2ae'
-    }
+# Example results
+{
+    'added': 'auto',
+    'ip': '10.34.0.123',
+    'configured': False,
+    'mac': '00:11:22:33:44:55',
+    'config': 'autoprov1234567890',
+    'id': '5dad2f2b3725438baa400bea8a55f2ae'
+}
 
-# Get list of devices
+# Get a list of devices
 device_list = c.devices.list(search={'ip': '10.10.10.10'})
 
-    # example of results
-    {
-        'devices': [
-            {
-                'added': 'auto',
-                'ip': '10.34.0.123',
-                'configured': False,
-                'mac': '00:11:22:33:44:55',
-                'config': 'autoprov1234567890',
-                'id': '5dad2f2b3725438baa400bea8a55f2ae'
-            }
-        ]
-    }
+# Example results
+{
+    'devices': [
+        {
+            'added': 'auto',
+            'ip': '10.34.0.123',
+            'configured': False,
+            'mac': '00:11:22:33:44:55',
+            'config': 'autoprov1234567890',
+            'id': '5dad2f2b3725438baa400bea8a55f2ae'
+        }
+    ]
+}
 
 
 # Update device info
 # The value must be a dictionary containing at least the id key
 c.devices.update({'id': '1234567890abcdef', 'ip': '10.10.10.10'})
 
-# Create device
+# Create a device
 device_id = c.devices.create({'ip': '10.10.10.10', 'mac': '00:11:22:33:44:55', 'plugin': 'zero'})
 
-    # example of result
-    {'id': '1234567890abcdef'}
+# Example results
+{'id': '1234567890abcdef'}
 
-# Delete device
+# Delete a device
 c.devices.delete('1234567890abcdef')
 
-# Synchronize device and get its operation in progress location
+# Synchronize a device and get its operation in progress
 operation_location = c.devices.synchronize('1234567890abcdef')
 
 # Reconfigure device
@@ -86,46 +86,45 @@ c.devices.create_from_dhcp(
         ]
     }
 )
-
 ```
 
 ### Plugins Command
 
 ```python
-# Update plugins list
+# Update plugin list
 c.plugins.update()
 
 # Get plugin info
-plugin = c.plugins.get('xivo-aastra-2.6.0.2019')
+plugin = c.plugins.get('wazo-aastra-3.3.1-SP4')
 
-# Get list of installed plugin names
+# Get a list of installed plugin names
 installed_plugin_names = c.plugins.list()
 
-# Get list of installed plugins
+# Get a list of installed plugins
 plugins_installed = c.plugins.list_installed()
 
-# Get list of installable plugins
+# Get a list of installable plugins
 plugins_installable = c.plugins.list_installable()
 
-    # example of result
-    {
+# Example results
+{
     'pkgs': {
-            'null': {
-                'capabilities': {'*, *, *': {'sip.lines': 0}},
-                'description': 'Plugin that offers no configuration service and rejects TFTP/HTTP requests.',
-                'dsize': 943,
-                'sha1sum': '873bf36b8024c74a85ee60f983254542fe16c32d',
-                'version': '1.0'
-            },
-            'zero': {
-                'capabilities': {'*, *, *': {'sip.lines': 0}},
-                'description': 'Plugin that offers no configuration service and serves TFTP/HTTP requests in its var/tftpboot directory.',
-                'dsize': 1043,
-                'sha1sum': 'b41a34b3b0b70512057a75465e0e76338b62a5b2',
-                'version': '1.0'
-            }
+        'null': {
+            'capabilities': {'*, *, *': {'sip.lines': 0}},
+            'description': 'Plugin that offers no configuration service and rejects TFTP/HTTP requests.',
+            'dsize': 943,
+            'sha1sum': '873bf36b8024c74a85ee60f983254542fe16c32d',
+            'version': '1.0'
+        },
+        'zero': {
+            'capabilities': {'*, *, *': {'sip.lines': 0}},
+            'description': 'Plugin that offers no configuration service and serves TFTP/HTTP requests in its var/tftpboot directory.',
+            'dsize': 1043,
+            'sha1sum': 'b41a34b3b0b70512057a75465e0e76338b62a5b2',
+            'version': '1.0'
         }
     }
+}
 
 # Install a plugin and get its operation in progress
 operation_progress = c.plugins.install('zero')
@@ -144,22 +143,22 @@ with c.plugins.install('zero') as operation:
 c.plugins.uninstall('zero')
 
 # Upgrade a plugin and get its operation in progress
-operation_progress = c.plugins.upgrade('xivo-aastra-2.6.0.2019')
+operation_progress = c.plugins.upgrade('wazo-aastra-3.3.1-SP4')
 
 # List packages installed for a plugin
-packages_installed = c.plugins.get_packages_installed('xivo-aastra-2.6.0.2019')
+packages_installed = c.plugins.get_packages_installed('wazo-aastra-3.3.1-SP4')
 
 # List packages installable for a plugin
-packages_installable = c.plugins.get_packages_installable('xivo-aastra-2.6.0.2019')
+packages_installable = c.plugins.get_packages_installable('wazo-aastra-3.3.1-SP4')
 
-# Install a package for a plugin and get its operation in progress location
-operation_progress = c.plugins.install_package('xivo-aastra-2.6.0.2019', '6730i-fw')
+# Install a package for a plugin and get its operation in progress
+operation_progress = c.plugins.install_package('wazo-aastra-3.3.1-SP4', '6730i-fw')
 
 # Uninstall a package for a plugin
-c.plugins.uninstall_package('xivo-aastra-2.6.0.2019', '6730i-fw')
+c.plugins.uninstall_package('wazo-aastra-3.3.1-SP4', '6730i-fw')
 
-# Upgrade a package for a plugin and get its operation in progress location
-operation_progress = c.plugins.upgrade_package('xivo-aastra-2.6.0.2019', '6730i-fw')
+# Upgrade a package for a plugin and get its operation in progress
+operation_progress = c.plugins.upgrade_package('wazo-aastra-3.3.1-SP4', '6730i-fw')
 ```
 
 ### Configs Command
@@ -168,94 +167,94 @@ operation_progress = c.plugins.upgrade_package('xivo-aastra-2.6.0.2019', '6730i-
 # Get list of template config line
 config_registrars = c.configs.list_registrar()
 
-    # example of result
-    {
-        'configs': [
-            {
-                'X_type': 'registrar',
-                'displayname': 'local',
-                'id': 'default',
-                'parent_ids': [],
-                'proxy_backup': None,
-                'proxy_main': '10.33.0.10',
-                'raw_config': {'X_key': 'xivo'},
-                'registrar_backup': None,
-                'registrar_main': '10.33.0.10',
-                'uuid': 'default'
-            },
-            {
-                'X_type': 'registrar',
-                'displayname': 'test22',
-                'id': 'ce474e86abb04bd781e59a4461c27da5',
-                'parent_ids': [],
-                'proxy_backup': None,
-                'proxy_main': '1.2.3.4',
-                'raw_config': {'X_key': 'xivo'},
-                'registrar_backup': None,
-                'registrar_main': '1.2.3.4'
-            }
-        ]
-    }
+# Example results
+{
+    'configs': [
+        {
+            'X_type': 'registrar',
+            'displayname': 'local',
+            'id': 'default',
+            'parent_ids': [],
+            'proxy_backup': None,
+            'proxy_main': '10.33.0.10',
+            'raw_config': {'X_key': 'xivo'},
+            'registrar_backup': None,
+            'registrar_main': '10.33.0.10',
+            'uuid': 'default'
+        },
+        {
+            'X_type': 'registrar',
+            'displayname': 'test22',
+            'id': 'ce474e86abb04bd781e59a4461c27da5',
+            'parent_ids': [],
+            'proxy_backup': None,
+            'proxy_main': '1.2.3.4',
+            'raw_config': {'X_key': 'xivo'},
+            'registrar_backup': None,
+            'registrar_main': '1.2.3.4'
+        }
+    ]
+}
 
 
 # Get list of template config device
 config_devices = c.configs.list_device()
 
-    # example of result
-    {
-        'configs': [
-            {
-            'X_type': 'device',
-            'uuid': '7169eb2d07564d9fb1cddac0e4fbe010',
-            'id': '7169eb2d07564d9fb1cddac0e4fbe010',
-            'label': 'test22',
-            'parent_ids': [],
-            'raw_config': {
-                    'X_key': 'xivo',
-                    'admin_password': 'admin passwd',
-                    'admin_username': 'admin username',
-                    'config_encryption_enabled': True,
-                    'locale': 'fr_FR',
-                    'ntp_enabled': True,
-                    'ntp_ip': None,
-                    'protocol': 'SIP',
-                    'sip_dtmf_mode': 'SIP-INFO',
-                    'sip_subscribe_mwi': True,
-                    'timezone': 'America/Porto_Acre',
-                    'user_password': 'user passwd',
-                    'user_username': 'user name'
-                }
+# Example results
+{
+    'configs': [
+        {
+        'X_type': 'device',
+        'uuid': '7169eb2d07564d9fb1cddac0e4fbe010',
+        'id': '7169eb2d07564d9fb1cddac0e4fbe010',
+        'label': 'test22',
+        'parent_ids': [],
+        'raw_config': {
+                'X_key': 'xivo',
+                'admin_password': 'admin passwd',
+                'admin_username': 'admin username',
+                'config_encryption_enabled': True,
+                'locale': 'fr_FR',
+                'ntp_enabled': True,
+                'ntp_ip': None,
+                'protocol': 'SIP',
+                'sip_dtmf_mode': 'SIP-INFO',
+                'sip_subscribe_mwi': True,
+                'timezone': 'America/Porto_Acre',
+                'user_password': 'user passwd',
+                'user_username': 'user name'
             }
-        ]
-    }
+        }
+    ]
+}
 
 
 # Get config by id
 config = c.configs.get(id)
 
-    # example of result
-    {
+# Example results
+{
     'X_type': 'device',
     'uuid': '7169eb2d07564d9fb1cddac0e4fbe010',
     'id': '7169eb2d07564d9fb1cddac0e4fbe010',
     'label': 'test22',
     'parent_ids': [],
     'raw_config': {
-            'X_key': 'xivo',
-            'admin_password': 'admin passwd',
-            'admin_username': 'admin username',
-            'config_encryption_enabled': True,
-            'locale': 'fr_FR',
-            'ntp_enabled': True,
-            'ntp_ip': None,
-            'protocol': 'SIP',
-            'sip_dtmf_mode': 'SIP-INFO',
-            'sip_subscribe_mwi': True,
-            'timezone': 'America/Porto_Acre',
-            'user_password': 'user passwd',
-            'user_username': 'user name'
-        }
+        'X_key': 'xivo',
+        'admin_password': 'admin passwd',
+        'admin_username': 'admin username',
+        'config_encryption_enabled': True,
+        'locale': 'fr_FR',
+        'ntp_enabled': True,
+        'ntp_ip': None,
+        'protocol': 'SIP',
+        'sip_dtmf_mode': 'SIP-INFO',
+        'sip_subscribe_mwi': True,
+        'timezone': 'America/Porto_Acre',
+        'user_password': 'user passwd',
+        'user_username': 'user name'
     }
+}
 
 # Create a config
 config_id = c.configs.create(resource)
@@ -276,21 +275,22 @@ config_id = c.configs.autocreate()
 # Get list of provd configuration parameters
 params = c.params.list()
 
-    # example of results
-    {
-        'params': [
-            {
-                'value': 'http://provd.wazo.community/plugins/1/stable',
-                'id': 'plugin_server',
-                'links': [
-                        {
-                            'href': '/configure/plugin_server',
-                            'rel': 'srv.configure.param'
-                        }
-                    ],
-                'description': u'The plugins repository URL'
-            },
-    }
+# Example results
+{
+    'params': [
+        {
+            'value': 'http://provd.wazo.community/plugins/2/stable',
+            'id': 'plugin_server',
+            'links': [
+                {
+                    'href': '/configure/plugin_server',
+                    'rel': 'srv.configure.param',
+                }
+            ],
+            'description': 'The plugins repository URL'
+        },
+    ]
+}
 # Get the value of a parameter
 value = c.params.get(param_name)
 
