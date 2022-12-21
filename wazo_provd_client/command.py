@@ -1,4 +1,4 @@
-# Copyright 2018-2019 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2018-2022 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
@@ -8,7 +8,6 @@ from wazo_lib_rest_client.command import RESTCommand
 
 from .exceptions import ProvdError
 from .exceptions import ProvdServiceUnavailable
-from .exceptions import InvalidProvdError
 
 
 class ProvdCommand(RESTCommand):
@@ -40,7 +39,7 @@ class ProvdCommand(RESTCommand):
             params['sort'] = order
             valid_directions = ('asc', 'desc')
             if direction not in valid_directions:
-                raise ValueError('Invalid direction {}'.format(direction))
+                raise ValueError(f'Invalid direction {direction}')
             params['sort_ord'] = direction.upper()
         if kwargs:
             params.update(kwargs)

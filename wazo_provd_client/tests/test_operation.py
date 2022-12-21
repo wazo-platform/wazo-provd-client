@@ -1,7 +1,7 @@
-# Copyright (C) 2013-2018 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2013-2022 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import unittest
+from unittest import TestCase
 from hamcrest import (
     assert_that,
     equal_to,
@@ -13,7 +13,7 @@ from hamcrest import (
 from wazo_provd_client.operation import parse_operation
 
 
-class TestParseOperation(unittest.TestCase):
+class TestParseOperation(TestCase):
 
     def test_state(self):
         oip = parse_operation('state')
