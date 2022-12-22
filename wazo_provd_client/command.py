@@ -1,4 +1,4 @@
-# Copyright 2018-2019 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2018-2022 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
@@ -8,11 +8,9 @@ from wazo_lib_rest_client.command import RESTCommand
 
 from .exceptions import ProvdError
 from .exceptions import ProvdServiceUnavailable
-from .exceptions import InvalidProvdError
 
 
 class ProvdCommand(RESTCommand):
-
     @staticmethod
     def raise_from_response(response):
         if response.status_code == 503:
@@ -24,7 +22,16 @@ class ProvdCommand(RESTCommand):
             raise ProvdError(e, response=response)
 
     @staticmethod
-    def _build_list_params(search=None, fields=None, offset=0, limit=0, order=None, direction=None, *args, **kwargs):
+    def _build_list_params(
+        search=None,
+        fields=None,
+        offset=0,
+        limit=0,
+        order=None,
+        direction=None,
+        *args,
+        **kwargs,
+    ):
         params = {}
         if args:
             params['q'] = json.dumps(args[0])
@@ -40,7 +47,7 @@ class ProvdCommand(RESTCommand):
             params['sort'] = order
             valid_directions = ('asc', 'desc')
             if direction not in valid_directions:
-                raise ValueError('Invalid direction {}'.format(direction))
+                raise ValueError(f'Invalid direction {direction}')
             params['sort_ord'] = direction.upper()
         if kwargs:
             params.update(kwargs)

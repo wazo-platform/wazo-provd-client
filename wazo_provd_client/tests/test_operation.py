@@ -1,7 +1,7 @@
-# Copyright (C) 2013-2018 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2013-2022 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import unittest
+from unittest import TestCase
 from hamcrest import (
     assert_that,
     equal_to,
@@ -13,8 +13,7 @@ from hamcrest import (
 from wazo_provd_client.operation import parse_operation
 
 
-class TestParseOperation(unittest.TestCase):
-
+class TestParseOperation(TestCase):
     def test_state(self):
         oip = parse_operation('state')
         assert_that(oip.label, equal_to(None))
@@ -93,7 +92,9 @@ class TestParseOperation(unittest.TestCase):
         assert_that(oip12.sub_oips, has_length(0))
 
     def test_complex(self):
-        oip1 = parse_operation('label1|state1;1/1(label11|state11;11/11(label111|state111;111/111))(label12|state12;12/12)')
+        oip1 = parse_operation(
+            'label1|state1;1/1(label11|state11;11/11(label111|state111;111/111))(label12|state12;12/12)'  # noqa
+        )
 
         assert_that(oip1.label, equal_to('label1'))
         assert_that(oip1.state, equal_to('state1'))
