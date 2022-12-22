@@ -1,17 +1,12 @@
 # Copyright 2018-2022 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import base64
-import json
-
 from wazo_provd_client.command import ProvdCommand
 
 
 class ParamsCommand(ProvdCommand):
     resource = 'configure'
-    _headers = {
-        'Content-Type': 'application/vnd.proformatique.provd+json'
-    }
+    _headers = {'Content-Type': 'application/vnd.proformatique.provd+json'}
 
     def list(self):
         url = f'{self.base_url}'

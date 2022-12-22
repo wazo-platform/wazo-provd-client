@@ -7,9 +7,7 @@ from wazo_provd_client.operation import OperationInProgress
 
 class DevicesCommand(ProvdCommand):
     resource = 'dev_mgr'
-    _headers = {
-        'Content-Type': 'application/vnd.proformatique.provd+json'
-    }
+    _headers = {'Content-Type': 'application/vnd.proformatique.provd+json'}
 
     def _build_headers(self, kwargs):
         headers = {}
@@ -66,7 +64,9 @@ class DevicesCommand(ProvdCommand):
 
     def delete(self, id_, **kwargs):
         url = f'{self.base_url}/devices/{id_}'
-        r = self.session.delete(url, headers=self._build_headers_with_global_headers(kwargs), params=kwargs)
+        r = self.session.delete(
+            url, headers=self._build_headers_with_global_headers(kwargs), params=kwargs
+        )
         self.raise_from_response(r)
 
     def synchronize(self, id_, **kwargs):

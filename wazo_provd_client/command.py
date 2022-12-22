@@ -11,7 +11,6 @@ from .exceptions import ProvdServiceUnavailable
 
 
 class ProvdCommand(RESTCommand):
-
     @staticmethod
     def raise_from_response(response):
         if response.status_code == 503:
@@ -23,7 +22,16 @@ class ProvdCommand(RESTCommand):
             raise ProvdError(e, response=response)
 
     @staticmethod
-    def _build_list_params(search=None, fields=None, offset=0, limit=0, order=None, direction=None, *args, **kwargs):
+    def _build_list_params(
+        search=None,
+        fields=None,
+        offset=0,
+        limit=0,
+        order=None,
+        direction=None,
+        *args,
+        **kwargs,
+    ):
         params = {}
         if args:
             params['q'] = json.dumps(args[0])

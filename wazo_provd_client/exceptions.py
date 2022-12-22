@@ -1,11 +1,10 @@
 # Copyright 2018-2022 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from requests import HTTPError, codes
+from requests import HTTPError
 
 
 class ProvdError(HTTPError):
-
     def __init__(self, *args, **kwargs):
         response = kwargs.get('response', None)
         self.status_code = getattr(response, 'status_code', None)

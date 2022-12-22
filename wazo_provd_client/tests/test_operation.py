@@ -14,7 +14,6 @@ from wazo_provd_client.operation import parse_operation
 
 
 class TestParseOperation(TestCase):
-
     def test_state(self):
         oip = parse_operation('state')
         assert_that(oip.label, equal_to(None))
@@ -93,7 +92,9 @@ class TestParseOperation(TestCase):
         assert_that(oip12.sub_oips, has_length(0))
 
     def test_complex(self):
-        oip1 = parse_operation('label1|state1;1/1(label11|state11;11/11(label111|state111;111/111))(label12|state12;12/12)')
+        oip1 = parse_operation(
+            'label1|state1;1/1(label11|state11;11/11(label111|state111;111/111))(label12|state12;12/12)'  # noqa
+        )
 
         assert_that(oip1.label, equal_to('label1'))
         assert_that(oip1.state, equal_to('state1'))

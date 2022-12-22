@@ -19,7 +19,6 @@ from ..exceptions import (
 
 
 class TestProvdCommand(TestCase):
-
     @patch('wazo_provd_client.command.RESTCommand.raise_from_response')
     def test_raise_from_response_no_error(self, parent_raise):
         response = Mock()
@@ -32,7 +31,7 @@ class TestProvdCommand(TestCase):
 
         assert_that(
             calling(ProvdCommand.raise_from_response).with_args(response),
-            raises(ProvdServiceUnavailable)
+            raises(ProvdServiceUnavailable),
         )
 
     def test_raise_from_response_default_error(self):
@@ -41,6 +40,6 @@ class TestProvdCommand(TestCase):
 
         assert_that(
             calling(ProvdCommand.raise_from_response).with_args(response),
-            raises(ProvdError)
+            raises(ProvdError),
         )
         response.raise_for_status.assert_called_once()

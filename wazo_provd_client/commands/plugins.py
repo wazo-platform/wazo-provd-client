@@ -7,9 +7,7 @@ from wazo_provd_client.operation import OperationInProgress
 
 class PluginsCommand(ProvdCommand):
     resource = 'pg_mgr'
-    _headers = {
-        'Content-Type': 'application/vnd.proformatique.provd+json'
-    }
+    _headers = {'Content-Type': 'application/vnd.proformatique.provd+json'}
 
     def update(self):
         url = f'{self.base_url}/install/update'

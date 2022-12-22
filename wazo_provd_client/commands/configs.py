@@ -9,9 +9,7 @@ from wazo_provd_client.command import ProvdCommand
 
 class ConfigsCommand(ProvdCommand):
     resource = 'cfg_mgr'
-    _headers = {
-        'Content-Type': 'application/vnd.proformatique.provd+json'
-    }
+    _headers = {'Content-Type': 'application/vnd.proformatique.provd+json'}
 
     def list_registrar(self, **params):
         url = f'{self.base_url}/configs'

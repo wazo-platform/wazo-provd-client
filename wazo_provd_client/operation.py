@@ -12,8 +12,9 @@ _PARSE_OIP_REGEX = re.compile(r'^(?:(\w+)\|)?(\w+)(?:;(\d+)(?:/(\d+))?)?')
 
 
 class BaseOperation:
-
-    def __init__(self, label=None, state=OIP_WAITING, current=None, end=None, sub_oips=None):
+    def __init__(
+        self, label=None, state=OIP_WAITING, current=None, end=None, sub_oips=None
+    ):
         self.label = label
         self.state = state
         self.current = current
@@ -33,7 +34,6 @@ class BaseOperation:
 
 
 class OperationInProgress(BaseOperation):
-
     def __init__(self, command, location, delete_on_exit=True):
         super().__init__()
         self._command = command
@@ -76,7 +76,9 @@ class OperationInProgress(BaseOperation):
     @staticmethod
     def _fix_location_url(location):
         location_parts = location.split('/')
-        return '/'.join(location_parts[3:])  # We do not want /provd/{pg,dev,cfg}_mgr/ prefix
+        return '/'.join(
+            location_parts[3:]
+        )  # We do not want /provd/{pg,dev,cfg}_mgr/ prefix
 
 
 def parse_operation(operation_string):
@@ -85,11 +87,13 @@ def parse_operation(operation_string):
         raise ValueError(f'Invalid progress string: {operation_string}')
     else:
         label, state, raw_current, raw_end = m.groups()
-        raw_sub_oips = operation_string[m.end():]
+        raw_sub_oips = operation_string[m.end() :]
         current = raw_current if raw_current is None else int(raw_current)
         end = raw_end if raw_end is None else int(raw_end)
-        sub_oips = [parse_operation(sub_oip_string) for sub_oip_string in
-                    _split_top_parentheses(raw_sub_oips)]
+        sub_oips = [
+            parse_operation(sub_oip_string)
+            for sub_oip_string in _split_top_parentheses(raw_sub_oips)
+        ]
         return BaseOperation(label, state, current, end, sub_oips)
 
 
@@ -113,5 +117,5 @@ def _split_top_parentheses(str_):
                 count -= 1
             idx += 1
         end_idx = idx
-        result.append(str_[start_idx + 1:end_idx - 1])
+        result.append(str_[start_idx + 1 : end_idx - 1])
     return result
