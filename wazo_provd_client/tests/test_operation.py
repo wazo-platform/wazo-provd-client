@@ -1,14 +1,9 @@
-# Copyright 2013-2022 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2013-2023 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from unittest import TestCase
-from hamcrest import (
-    assert_that,
-    equal_to,
-    is_,
-    empty,
-    has_length,
-)
+
+from hamcrest import assert_that, empty, equal_to, has_length, is_
 
 from wazo_provd_client.operation import parse_operation
 
