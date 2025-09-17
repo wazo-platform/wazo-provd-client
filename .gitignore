@@ -1,14 +1,7 @@
-*.swp
 *.egg-info
-*.mo
 *.pyc
-*.pyo
-.eggs
-.tox
-build
-dist
+*.swp
 .coverage
+.tox
 coverage.xml
-pycodestyle.txt
-pylint.txt
-nosetests.xml
+unit-tests.xml
