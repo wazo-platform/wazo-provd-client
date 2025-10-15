@@ -1,6 +1,6 @@
 # wazo-provd-client
 
-A python client library to access xivo-provd
+A python client library to access wazo-provd
 
 ## Usage
 
@@ -307,7 +307,7 @@ c.params.delete(param_name)
 
 ```
 pip install tox
-tox --recreate -e py39
+tox --recreate -e py311
 ```
 
 ## How to implement a new command
